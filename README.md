@@ -1,7 +1,11 @@
 # scratch-web
 
+Various web oriented projects.
+
+## spring-react
+
 Spring-boot based application with web MVC, React.js, frontend-maven-plugin, and JQuery.
 
-# scratch-jquery
+## jquery
 
-Simple JQuery based server less site for experimentation wiht JQuery.
+Simple JQuery based static site for experimentation with JQuery.
