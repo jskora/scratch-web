@@ -4,55 +4,44 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const client = require('./client');
 
+import Employees from './employees.js';
+import News from './news.js';
+
 class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {employees: []};
+        this.state = {
+            active: 'employees'
+        }
+        this.handleClick.bind(this);
     }
 
-    componentDidMount() {
-        client({method: 'GET', path: '/api/employees'}).done(response => {
-            this.setState({employees: response.entity._embedded.employees});
-        });
+    handleClick() {
+        alert("handleClick " + this.state);
+        this.setState(prevState => ({
+            active: prevState.active == 'employees' ? 'news' : 'employees'
+        }))
     }
 
     render() {
-        return (
-            <EmployeeList employees={this.state.employees}/>
-        )
-    }
-}
-
-class EmployeeList extends React.Component{
-    render() {
-        var employees = this.props.employees.map(employee =>
-            <Employee key={employee._links.self.href} employee={employee}/>
-        );
-        return (
-            <table>
-                <tbody>
-                <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Description</th>
-                </tr>
-                {employees}
-                 </tbody>
-            </table>
-        )
-    }
-}
-
-class Employee extends React.Component{
-    render() {
-        return (
-            <tr>
-                <td>{this.props.employee.firstName}</td>
-                <td>{this.props.employee.lastName}</td>
-                <td>{this.props.employee.description}</td>
-            </tr>
-        )
+        if (this.state.active == "employees") {
+            return (
+                <div>
+                    <button title="employees" disabled>employees</button>
+                    <button title="news" onClick={this.handleClick}>news</button>
+                    <Employees />
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <button title="employees" onClick={this.handleClick}>employees</button>
+                    <button title="news" disabled>news</button>
+                    <News />
+                </div>
+            )
+        }
     }
 }
 
